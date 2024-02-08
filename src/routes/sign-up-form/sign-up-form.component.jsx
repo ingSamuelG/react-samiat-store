@@ -5,6 +5,7 @@ import {
   createUserDocumentFromAuth,
 } from "../../utils/firebase/firebase.util";
 import FormInput from "../../components/form-input/form-input.component";
+import Button from "../../components/button/button.component";
 
 function SingUpForm() {
   const defaultFormFields = {
@@ -54,7 +55,7 @@ function SingUpForm() {
 
   return (
     <div className="group">
-      <h1>Sing up with you email and password</h1>
+      <span>Sing up with your email and password</span>
       <form onSubmit={handleSubmit}>
         <FormInput
           label="Display Name:"
@@ -103,9 +104,9 @@ function SingUpForm() {
             <p style={{ color: "green" }}>Matching ...</p>
           )
         ) : null}
-        <button disabled={hiddeButton} type="submit">
+        <Button disabled={hiddeButton} type="submit">
           Sign up
-        </button>
+        </Button>
       </form>
     </div>
   );
