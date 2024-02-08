@@ -4,6 +4,7 @@ import {
   createAuthUserWithEmailAndPassword,
   createUserDocumentFromAuth,
 } from "../../utils/firebase/firebase.util";
+import FormInput from "../../components/form-input/form-input.component";
 
 function SingUpForm() {
   const defaultFormFields = {
@@ -52,40 +53,43 @@ function SingUpForm() {
   }, [form, confirmPassword, password]);
 
   return (
-    <div>
+    <div className="group">
       <h1>Sing up with you email and password</h1>
-
-      <form className="form-container" onSubmit={handleSubmit}>
-        <label htmlFor="displayname">Display Name:</label>
-        <input
-          type="text"
-          name="displayname"
+      <form onSubmit={handleSubmit}>
+        <FormInput
+          label="Display Name:"
+          className="form-input"
           id="displayname"
+          name="displayname"
+          type="text"
           onChange={handleChange}
-          required
           value={displayname}
+          required
         />
-        <label htmlFor="email">Email:</label>
-        <input
+        <FormInput
+          label="Email:"
           type="email"
+          className="form-input"
           name="email"
           id="email"
           required
           onChange={handleChange}
           value={email}
         />
-        <label htmlFor="password">Password:</label>
-        <input
+        <FormInput
+          label="Password:"
           type="password"
+          className="form-input"
           name="password"
           id="password"
           required
           onChange={handleChange}
           value={password}
         />
-        <label htmlFor="confirmPassword">Confirm password:</label>
-        <input
+        <FormInput
+          label="Confirm password:"
           type="password"
+          className="form-input"
           name="confirmPassword"
           id="confirmPassword"
           required
