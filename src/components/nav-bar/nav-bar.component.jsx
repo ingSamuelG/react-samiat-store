@@ -1,8 +1,12 @@
 import { Link } from "react-router-dom";
 import "./nav-bar.style.scss";
 import { ReactComponent as SamiatLogo } from "../../assets/logo.svg";
+import { UserCtx } from "../../context/user.context";
+import { useContext } from "react";
 
 const NavBar = () => {
+  const { currentUser } = useContext(UserCtx);
+
   return (
     <div className="navigation">
       <Link className="logo-container" to="/">
@@ -12,9 +16,16 @@ const NavBar = () => {
         <Link className="nav-link" to="shop">
           Shop
         </Link>
-        <Link className="nav-link" to="auth">
-          Sing in
-        </Link>
+        {currentUser ? (
+          <Link className="nav-link" to="auth">
+            Sing out
+          </Link>
+        ) : (
+          <Link className="nav-link" to="auth">
+            Sing in
+          </Link>
+        )}
+
         <a
           href="https://maps.app.goo.gl/ZxptzKmrqbiBpdoCA"
           rel="noopener noreferrer"
