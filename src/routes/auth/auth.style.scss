@@ -1,0 +1,16 @@
+.auth-selection-container {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: space-between;
+
+    padding: 100px 18%;
+}
+
+.button-group{
+    display: flex;
+    justify-content: space-between;
+    padding: 0px;
+}
