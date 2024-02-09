@@ -38,8 +38,19 @@ export default function SignInForm() {
   };
 
   const logGoogleUser = async () => {
-    const { user } = await singInWithGooglePopUp();
-    createUserDocumentFromAuth(user);
+    try {
+      const { user } = await singInWithGooglePopUp();
+      createUserDocumentFromAuth(user);
+    } catch (error) {
+      if (
+        error.code === "auth/cancelled-popup-request" ||
+        error.code === "auth/popup-closed-by-user"
+      ) {
+        console.log(error.message);
+      } else {
+        alert(error.message);
+      }
+    }
   };
 
   const [form, setForm] = useState(defaultFormFields);
@@ -61,22 +72,22 @@ export default function SignInForm() {
         <form onSubmit={handleSubmit}>
           <FormInput
             label="Email:"
-            key={`${email}-sign-in`}
+            key="email-sign-in"
             type="email"
             className="form-input"
             name="email"
-            id="email"
+            id="email-sign-in"
             required
             onChange={handleChange}
             value={email}
           />
           <FormInput
             label="Password:"
-            key={`${password}-sign-in`}
+            key="password-sign-in"
             type="password"
             className="form-input"
             name="password"
-            id="password"
+            id="password-sign-in"
             required
             onChange={handleChange}
             value={password}

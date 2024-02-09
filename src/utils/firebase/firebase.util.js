@@ -65,11 +65,11 @@ export const createAuthUserWithEmailAndPassword = async (displayName,email, pass
 
 }
 
-
 export const signInUserWithEmailandPassword =  async (email,password) => {
         try {
             const userCred = await signInWithEmailAndPassword (auth, email,password)
             console.log(userCred)
+            return userCred
         } catch (error) { 
             alert(`Error in sign: ${error.message}`)
             
