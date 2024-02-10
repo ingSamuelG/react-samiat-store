@@ -1,0 +1,4 @@
+const lenguage = {
+  en: {},
+  esp: {},
+};

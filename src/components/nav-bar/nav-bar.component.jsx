@@ -3,6 +3,7 @@ import "./nav-bar.style.scss";
 import { ReactComponent as SamiatLogo } from "../../assets/logo.svg";
 import { UserCtx } from "../../context/user.context";
 import { useContext } from "react";
+import { signOutUser } from "../../utils/firebase/firebase.util";
 
 const NavBar = () => {
   const { currentUser } = useContext(UserCtx);
@@ -17,9 +18,9 @@ const NavBar = () => {
           Shop
         </Link>
         {currentUser ? (
-          <Link className="nav-link" to="auth">
+          <span onClick={signOutUser} className="nav-link" to="auth">
             Sing out
-          </Link>
+          </span>
         ) : (
           <Link className="nav-link" to="auth">
             Sing in

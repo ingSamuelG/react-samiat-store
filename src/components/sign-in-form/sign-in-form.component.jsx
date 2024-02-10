@@ -9,8 +9,7 @@ import {
 } from "../../utils/firebase/firebase.util";
 // import { getRedirectResult } from "firebase/auth";
 import Button from "../button/button.component";
-import { useState, useContext } from "react";
-import { UserCtx } from "../../context/user.context";
+import { useState } from "react";
 
 export default function SignInForm() {
   /// To use with google redirect instead of the pop up
@@ -31,8 +30,6 @@ export default function SignInForm() {
     password: "",
   };
 
-  const { setCurrentUser } = useContext(UserCtx);
-
   const handleChange = (event) => {
     const { name, value } = event.target;
     setForm({ ...form, [name]: value });
@@ -40,10 +37,7 @@ export default function SignInForm() {
 
   const logGoogleUser = async () => {
     try {
-      const { user } = await singInWithGooglePopUp();
-      createUserDocumentFromAuth(user);
-      console.log(user);
-      setCurrentUser(user);
+      await singInWithGooglePopUp();
     } catch (error) {
       if (
         error.code === "auth/cancelled-popup-request" ||
@@ -64,7 +58,6 @@ export default function SignInForm() {
     if (email && password) {
       try {
         const user = await signInUserWithEmailandPassword(email, password);
-        setCurrentUser(user);
         setForm(defaultFormFields);
       } catch (error) {
         if (error.code === "auth/invalid-credential") {

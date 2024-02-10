@@ -15,6 +15,9 @@ function SingUpForm() {
     confirmPassword: "",
   };
 
+  const resetFormFields = () => {
+    setForm(defaultFormFields);
+  };
   const [form, setForm] = useState(defaultFormFields);
   const [hiddeButton, sethiddeButton] = useState(true);
   const { displayname, email, password, confirmPassword } = form;
@@ -28,9 +31,8 @@ function SingUpForm() {
           email,
           password
         );
-
         createUserDocumentFromAuth(res);
-        setForm(defaultFormFields);
+        resetFormFields();
       } catch (error) {
         alert(`Error:${error.message}`);
       }
