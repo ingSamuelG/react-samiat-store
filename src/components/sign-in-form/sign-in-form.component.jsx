@@ -3,7 +3,7 @@ import FormInput from "../form-input/form-input.component";
 import {
   // auth,
   singInWithGooglePopUp,
-  createUserDocumentFromAuth,
+  // createUserDocumentFromAuth,
   signInUserWithEmailandPassword,
   // signInWithGoogleRedirect,
 } from "../../utils/firebase/firebase.util";
@@ -57,7 +57,7 @@ export default function SignInForm() {
     event.preventDefault();
     if (email && password) {
       try {
-        const user = await signInUserWithEmailandPassword(email, password);
+        await signInUserWithEmailandPassword(email, password);
         setForm(defaultFormFields);
       } catch (error) {
         if (error.code === "auth/invalid-credential") {

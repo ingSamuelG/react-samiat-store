@@ -1,7 +1,22 @@
+import { useContext } from "react";
+import { ProductsCtx } from "../../context/products.context";
+import "./shop.style.scss";
+import ProductCard from "../../components/product-card/product-card.component";
 
-
-function Shop () {
-    return ( <h1>Shop</h1> );
+function Shop() {
+  const { products } = useContext(ProductsCtx);
+  return (
+    <div className="products-container">
+      {products.map(({ id, title, thumbnail, price }) => (
+        <ProductCard
+          id={id}
+          title={title}
+          thumbnail={thumbnail}
+          price={price}
+        />
+      ))}
+    </div>
+  );
 }
 
-export default Shop ;
+export default Shop;
