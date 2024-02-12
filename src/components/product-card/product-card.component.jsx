@@ -7,6 +7,9 @@ import { useContext } from "react";
 const ProductCard = (product) => {
   const { title, thumbnail, price } = product;
   const { addItemToCart } = useContext(CartCtx);
+  const handleAddProductToCart = () => {
+    addItemToCart(product);
+  };
 
   return (
     <div className="product-card-container">
@@ -16,9 +19,7 @@ const ProductCard = (product) => {
         <span className="price">{price}</span>
       </div>
       <Button
-        onClick={() => {
-          addItemToCart(product);
-        }}
+        onClick={handleAddProductToCart}
         type="button"
         buttonType="inverted"
       >

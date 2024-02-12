@@ -5,9 +5,9 @@ import { CartCtx } from "../../context/cart.context";
 import { useContext } from "react";
 
 const CartIcon = () => {
-  const { cart, setCart } = useContext(CartCtx);
-  const { isCartDropDownOpen } = cart;
-  const count = 0;
+  const { cart, setCart, calculateCartQty } = useContext(CartCtx);
+  const { isCartDropDownOpen, cartItems } = cart;
+  const count = calculateCartQty(cartItems);
 
   const toggleCartDropdown = () => {
     setCart({ ...cart, isCartDropDownOpen: !isCartDropDownOpen });
