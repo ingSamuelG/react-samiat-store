@@ -1,5 +1,4 @@
 import { createContext, useState, useEffect } from "react";
-import SHOP_DATA from "../assets/shop-data.json";
 
 export const ProductsCtx = createContext({
   products: null,
