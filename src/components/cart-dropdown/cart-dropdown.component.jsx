@@ -4,6 +4,7 @@ import Button from "../button/button.component";
 import CartItem from "../cart-item/cart-item.component";
 import { CartCtx } from "../../context/cart.context";
 import { useContext } from "react";
+import { Link } from "react-router-dom";
 
 const CartDropdown = () => {
   const { cart } = useContext(CartCtx);
@@ -16,7 +17,9 @@ const CartDropdown = () => {
           return <CartItem key={item.id} cartItem={item} />;
         })}
       </div>
-      <Button type="button">Go to check out</Button>
+      <Link to="checkout">
+        <Button type="button">Go to check out</Button>
+      </Link>
     </div>
   );
 };

@@ -1,0 +1,44 @@
+@mixin center-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.checkout-item-container {
+    display: grid;
+    grid-template-columns: repeat(5,1fr);
+    column-gap: 50px;
+    row-gap: 50px;
+    padding: 10px;
+    width: 100%;
+
+    img {
+        width: 80%;
+    }
+
+    .name-container {
+        @include center-container();
+
+        .name{
+            font-size: 1.2rem;
+        }
+    }
+
+    .checkout-button-container{
+        @include center-container();
+
+    }
+
+    .price-container{
+        @include center-container();
+        .price{
+            font-size: 1.2rem;
+        }
+    }
+
+    .remove-button-container{
+        @include center-container();
+        cursor: pointer;
+    }
+
+}
