@@ -10,12 +10,8 @@ import CartIcon from "../cart-icon/cart-icon.componet";
 
 const NavBar = () => {
   const { currentUser } = useContext(UserCtx);
-  const { cart, setCart } = useContext(CartCtx);
-  const { isCartDropDown } = cart;
-
-  const toggleCartDropdown = () => {
-    setCart({ ...cart, isCartDropDown: !isCartDropDown });
-  };
+  const { cart } = useContext(CartCtx);
+  const { isCartDropDownOpen } = cart;
 
   return (
     <div className="navigation">
@@ -35,7 +31,6 @@ const NavBar = () => {
             Sing in
           </Link>
         )}
-        <CartIcon onClick={toggleCartDropdown} />
         <a
           href="https://maps.app.goo.gl/ZxptzKmrqbiBpdoCA"
           rel="noopener noreferrer"
@@ -44,8 +39,9 @@ const NavBar = () => {
         >
           Como llegar
         </a>
+        <CartIcon />
       </div>
-      {isCartDropDown ? <CartDropdown /> : null}
+      {isCartDropDownOpen && <CartDropdown />}
     </div>
   );
 };

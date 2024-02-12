@@ -2,6 +2,7 @@ import { createContext, useState, useEffect } from "react";
 
 export const ProductsCtx = createContext({
   products: null,
+  setProducts: () => {},
 });
 
 export const ProductsProvider = ({ children }) => {
