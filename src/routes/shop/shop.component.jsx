@@ -13,6 +13,7 @@ function Shop() {
           title={title}
           thumbnail={thumbnail}
           price={price}
+          key={id}
         />
       ))}
     </div>

@@ -6,8 +6,8 @@ import { useContext } from "react";
 
 const CartIcon = () => {
   const { cart, setCart } = useContext(CartCtx);
-  const { isCartDropDownOpen, cartItems } = cart;
-  const count = cartItems.length;
+  const { isCartDropDownOpen } = cart;
+  const count = 0;
 
   const toggleCartDropdown = () => {
     setCart({ ...cart, isCartDropDownOpen: !isCartDropDownOpen });
