@@ -15,7 +15,11 @@ const CheckOutItem = ({ item }) => {
   };
 
   const takeOutOneHandler = () => {
-    minusOneCartItem(item);
+    if (item.quantity === 1) {
+      removeItemFromTheCart(item);
+    } else {
+      minusOneCartItem(item);
+    }
   };
 
   return (

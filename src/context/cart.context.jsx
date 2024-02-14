@@ -5,6 +5,7 @@ export const CartCtx = createContext({
   setCart: () => {},
   addItemToCart: () => {},
   calculateCartQty: () => {},
+  calculateCartTotal: () => {},
   addOneToCartItem: () => {},
   minusOneCartItem: () => {},
   removeItemFromTheCart: () => {},
@@ -45,6 +46,13 @@ const setCartItemQtyWithCallbackResult = (
 
 const calculateCartQty = (items) => {
   return items.reduce((accum, currentItem) => currentItem.quantity + accum, 0);
+};
+
+const calculateCartTotal = (items) => {
+  return items.reduce(
+    (accum, currentItem) => currentItem.price * currentItem.quantity + accum,
+    0
+  );
 };
 
 const removeCartItem = (cartItems, productToRemove) => {
@@ -108,6 +116,7 @@ export const CartProvider = ({ children }) => {
     addOneToCartItem,
     minusOneCartItem,
     calculateCartQty,
+    calculateCartTotal,
     removeItemFromTheCart,
   };
 
