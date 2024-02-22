@@ -5,10 +5,10 @@ import "./checkout-item.style.scss";
 
 const CheckOutItem = ({ item }) => {
   const { title, thumbnail, quantity, price } = item;
-  const { addItemToCart, removeCartItem } = useContext(CartCtx);
+  const { addItemToCart, removeCartItem, clearCartItem } = useContext(CartCtx);
 
   const handleRemoval = () => {
-    removeCartItem(item);
+    clearCartItem(item);
   };
   const addOneHandler = () => {
     addItemToCart(item);
@@ -20,22 +20,22 @@ const CheckOutItem = ({ item }) => {
 
   return (
     <div className="checkout-item-container">
-      <img src={thumbnail} alt={title} />
-      <div className="name-container">
-        <span className="name">{title}</span>
+      <div className="image-container">
+        <img src={thumbnail} alt={title} />
       </div>
-      <div className="checkout-button-container">
-        <button type="button" onClick={addOneHandler}>
-          +
-        </button>
-        <span>{quantity}</span>
-        <button type="button" onClick={takeOutOneHandler}>
-          -
-        </button>
-      </div>
-      <div className="price-container">{price}</div>
-      <div className="remove-button-container" onClick={handleRemoval}>
-        remove
+      <span className="name">{title}</span>
+      <span className="quantity">
+        <div className="arrow" onClick={takeOutOneHandler}>
+          &#10094;
+        </div>
+        <span className="value">{quantity}</span>
+        <div className="arrow" onClick={addOneHandler}>
+          &#10095;
+        </div>
+      </span>
+      <span className="price">{price}</span>
+      <div className="remove-button" onClick={handleRemoval}>
+        &#10005;
       </div>
     </div>
   );

@@ -7,7 +7,7 @@ export const CartCtx = createContext({
   addItemToCart: () => {},
   calculateCartTotal: () => {},
   removeCartItem: () => {},
-  removeItemFromTheCart: () => {},
+  clearCartItem: () => {},
 });
 
 const setCartItemQtyWithCallbackResult = (
@@ -54,10 +54,6 @@ const calculateCartTotal = (items) => {
   );
 };
 
-const clearCartItem = (cartItems, productToRemove) => {
-  return cartItems.filter((item) => item.id !== productToRemove.id);
-};
-
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState({
     isCartDropDownOpen: false,
@@ -66,12 +62,17 @@ export const CartProvider = ({ children }) => {
 
   const { cartItems } = cart;
 
+  const clearCartItem = (productToRemove) => {
+    const newCart = cartItems.filter((item) => item.id !== productToRemove.id);
+    setCart({
+      ...cart,
+      cartItems: newCart,
+    });
+  };
+
   const removeCartItem = (productToRemove) => {
     if (productToRemove.quantity === 1) {
-      setCart({
-        ...cart,
-        cartItems: clearCartItem(cartItems, productToRemove),
-      });
+      clearCartItem(productToRemove);
     } else {
       setCart({
         ...cart,
@@ -102,6 +103,7 @@ export const CartProvider = ({ children }) => {
     removeCartItem,
     calculateCartQty,
     calculateCartTotal,
+    clearCartItem,
   };
 
   return <CartCtx.Provider value={value}>{children}</CartCtx.Provider>;
