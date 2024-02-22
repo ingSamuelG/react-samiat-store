@@ -3,7 +3,6 @@ import { createContext, useState } from "react";
 export const CartCtx = createContext({
   cart: null,
   setCart: () => {},
-  addItemToCart: () => {},
   calculateCartQty: () => {},
   calculateCartTotal: () => {},
   addOneToCartItem: () => {},
@@ -70,16 +69,6 @@ export const CartProvider = ({ children }) => {
   const removeItemFromTheCart = (productToRemove) => {
     setCart({ ...cart, cartItems: removeCartItem(cartItems, productToRemove) });
   };
-  const addItemToCart = (productToAdd) => {
-    setCart({
-      ...cart,
-      cartItems: setCartItemQtyWithCallbackResult(
-        (qnty) => (qnty += 1),
-        cartItems,
-        productToAdd
-      ),
-    });
-  };
 
   const addOneToCartItem = (productToAdd) => {
     setCart({
@@ -112,7 +101,6 @@ export const CartProvider = ({ children }) => {
   const value = {
     cart,
     setCart,
-    addItemToCart,
     addOneToCartItem,
     minusOneCartItem,
     calculateCartQty,

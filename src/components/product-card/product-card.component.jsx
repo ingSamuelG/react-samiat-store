@@ -6,9 +6,9 @@ import { useContext } from "react";
 
 const ProductCard = (product) => {
   const { title, thumbnail, price } = product;
-  const { addItemToCart } = useContext(CartCtx);
+  const { addOneToCartItem } = useContext(CartCtx);
   const handleAddProductToCart = () => {
-    addItemToCart(product);
+    addOneToCartItem(product);
   };
 
   return (
