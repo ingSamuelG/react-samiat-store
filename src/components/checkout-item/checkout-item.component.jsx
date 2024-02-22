@@ -5,21 +5,17 @@ import "./checkout-item.style.scss";
 
 const CheckOutItem = ({ item }) => {
   const { title, thumbnail, quantity, price } = item;
-  const { addOneToCartItem, minusOneCartItem, removeItemFromTheCart } =
-    useContext(CartCtx);
+  const { addItemToCart, removeCartItem } = useContext(CartCtx);
+
   const handleRemoval = () => {
-    removeItemFromTheCart(item);
+    removeCartItem(item);
   };
   const addOneHandler = () => {
-    addOneToCartItem(item);
+    addItemToCart(item);
   };
 
   const takeOutOneHandler = () => {
-    if (item.quantity === 1) {
-      removeItemFromTheCart(item);
-    } else {
-      minusOneCartItem(item);
-    }
+    removeCartItem(item);
   };
 
   return (

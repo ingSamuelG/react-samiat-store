@@ -4,9 +4,9 @@ export const CartCtx = createContext({
   cart: null,
   setCart: () => {},
   calculateCartQty: () => {},
+  addItemToCart: () => {},
   calculateCartTotal: () => {},
-  addOneToCartItem: () => {},
-  minusOneCartItem: () => {},
+  removeCartItem: () => {},
   removeItemFromTheCart: () => {},
 });
 
@@ -54,8 +54,8 @@ const calculateCartTotal = (items) => {
   );
 };
 
-const removeCartItem = (cartItems, productToRemove) => {
-  return cartItems.filter((item) => !(item.id === productToRemove.id));
+const clearCartItem = (cartItems, productToRemove) => {
+  return cartItems.filter((item) => item.id !== productToRemove.id);
 };
 
 export const CartProvider = ({ children }) => {
@@ -66,11 +66,25 @@ export const CartProvider = ({ children }) => {
 
   const { cartItems } = cart;
 
-  const removeItemFromTheCart = (productToRemove) => {
-    setCart({ ...cart, cartItems: removeCartItem(cartItems, productToRemove) });
+  const removeCartItem = (productToRemove) => {
+    if (productToRemove.quantity === 1) {
+      setCart({
+        ...cart,
+        cartItems: clearCartItem(cartItems, productToRemove),
+      });
+    } else {
+      setCart({
+        ...cart,
+        cartItems: setCartItemQtyWithCallbackResult(
+          (qnty) => qnty - 1,
+          cartItems,
+          productToRemove
+        ),
+      });
+    }
   };
 
-  const addOneToCartItem = (productToAdd) => {
+  const addItemToCart = (productToAdd) => {
     setCart({
       ...cart,
       cartItems: setCartItemQtyWithCallbackResult(
@@ -81,31 +95,13 @@ export const CartProvider = ({ children }) => {
     });
   };
 
-  const minusOneCartItem = (productToAdd) => {
-    setCart({
-      ...cart,
-      cartItems: setCartItemQtyWithCallbackResult(
-        (qnty) => {
-          if (qnty > 0) {
-            return qnty - 1;
-          } else {
-            return 0;
-          }
-        },
-        cartItems,
-        productToAdd
-      ),
-    });
-  };
-
   const value = {
     cart,
     setCart,
-    addOneToCartItem,
-    minusOneCartItem,
+    addItemToCart,
+    removeCartItem,
     calculateCartQty,
     calculateCartTotal,
-    removeItemFromTheCart,
   };
 
   return <CartCtx.Provider value={value}>{children}</CartCtx.Provider>;
