@@ -1,4 +1,4 @@
-import CategoryContainer from "../../components/categories-container/categories-container.component";
+import Directory from "../../components/directory/directory.component";
 
 const Home = () => {
   const categories = [
@@ -29,7 +29,7 @@ const Home = () => {
     },
   ];
 
-  return <CategoryContainer categories={categories} />;
+  return <Directory categories={categories} />;
 };
 
 export default Home;
