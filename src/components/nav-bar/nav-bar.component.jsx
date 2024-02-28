@@ -1,5 +1,10 @@
-import { Link } from "react-router-dom";
-import "./nav-bar.style.scss";
+// import { Link } from "react-router-dom";
+import {
+  NavigationContainer,
+  NavLinks,
+  NavLink,
+  LogoContainer,
+} from "./nav-bar.style";
 import { ReactComponent as SamiatLogo } from "../../assets/logo.svg";
 import { UserCtx } from "../../context/user.context";
 import { CartCtx } from "../../context/cart.context";
@@ -14,35 +19,41 @@ const NavBar = () => {
   const { isCartDropDownOpen } = cart;
 
   return (
-    <div className="navigation">
-      <Link className="logo-container" to="/">
+    <NavigationContainer>
+      <LogoContainer className="logo-container" to="/">
         <SamiatLogo className="logo"></SamiatLogo>
-      </Link>
-      <div className="nav-links-container">
-        <Link className="nav-link" to="shop">
+      </LogoContainer>
+      <NavLinks>
+        <NavLink className="nav-link" to="shop">
           Shop
-        </Link>
+        </NavLink>
         {currentUser ? (
-          <span onClick={signOutUser} className="nav-link" to="auth">
+          <NavLink
+            as="span"
+            onClick={signOutUser}
+            className="nav-link"
+            to="auth"
+          >
             Sing out
-          </span>
+          </NavLink>
         ) : (
-          <Link className="nav-link" to="auth">
+          <NavLink className="nav-link" to="auth">
             Sing in
-          </Link>
+          </NavLink>
         )}
-        <a
+        <NavLink
+          as="a"
           href="https://maps.app.goo.gl/ZxptzKmrqbiBpdoCA"
           rel="noopener noreferrer"
           target="_blank"
           className="nav-link"
         >
           Como llegar
-        </a>
+        </NavLink>
         <CartIcon />
-      </div>
+      </NavLinks>
       {isCartDropDownOpen && <CartDropdown />}
-    </div>
+    </NavigationContainer>
   );
 };
 

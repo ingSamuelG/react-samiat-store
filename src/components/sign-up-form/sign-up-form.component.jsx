@@ -5,7 +5,7 @@ import {
   createUserDocumentFromAuth,
 } from "../../utils/firebase/firebase.util";
 import FormInput from "../form-input/form-input.component";
-import Button from "../button/button.component";
+import Button, { BUTTON_TYPE_CLASSES } from "../button/button.component";
 
 function SingUpForm() {
   const defaultFormFields = {
@@ -110,7 +110,11 @@ function SingUpForm() {
               <p style={{ color: "green" }}>Matching ...</p>
             )
           ) : null}
-          <Button disabled={hiddeButton} type="submit">
+          <Button
+            disabled={hiddeButton}
+            type="submit"
+            buttonType={BUTTON_TYPE_CLASSES.base}
+          >
             Sign up
           </Button>
         </form>

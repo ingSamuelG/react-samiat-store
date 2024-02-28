@@ -8,7 +8,7 @@ import {
   // signInWithGoogleRedirect,
 } from "../../utils/firebase/firebase.util";
 // import { getRedirectResult } from "firebase/auth";
-import Button from "../button/button.component";
+import Button, { BUTTON_TYPE_CLASSES } from "../button/button.component";
 import { useState } from "react";
 
 export default function SignInForm() {
@@ -96,8 +96,14 @@ export default function SignInForm() {
             value={password}
           />
           <div className="button-group">
-            <Button type="submit">Sign in</Button>
-            <Button type="button" buttonType="google" onClick={logGoogleUser}>
+            <Button type="submit" buttonType={BUTTON_TYPE_CLASSES.base}>
+              Sign in
+            </Button>
+            <Button
+              type="button"
+              buttonType={BUTTON_TYPE_CLASSES.google}
+              onClick={logGoogleUser}
+            >
               Sing with google
             </Button>
           </div>
