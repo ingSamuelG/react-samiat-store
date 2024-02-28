@@ -1,7 +1,16 @@
 import React from "react";
 import { CartCtx } from "../../context/cart.context";
 import { useContext } from "react";
-import "./checkout-item.style.scss";
+import {
+  CheckOutItemContainer,
+  CheckOutDescriptor,
+  CheckOutItemImageWrapper,
+  Arrow,
+  CheckOutItemImage,
+  CheckOutDescriptorForQty,
+  QuantityAmount,
+  CheckOutRemoveButton,
+} from "./checkout-item.style.jsx";
 
 const CheckOutItem = ({ item }) => {
   const { title, thumbnail, quantity, price } = item;
@@ -19,25 +28,21 @@ const CheckOutItem = ({ item }) => {
   };
 
   return (
-    <div className="checkout-item-container">
-      <div className="image-container">
-        <img src={thumbnail} alt={title} />
-      </div>
-      <span className="name">{title}</span>
-      <span className="quantity">
-        <div className="arrow" onClick={takeOutOneHandler}>
-          &#10094;
-        </div>
-        <span className="value">{quantity}</span>
-        <div className="arrow" onClick={addOneHandler}>
-          &#10095;
-        </div>
-      </span>
-      <span className="price">{price}</span>
-      <div className="remove-button" onClick={handleRemoval}>
+    <CheckOutItemContainer>
+      <CheckOutItemImageWrapper>
+        <CheckOutItemImage src={thumbnail} alt={title} />
+      </CheckOutItemImageWrapper>
+      <CheckOutDescriptor>{title}</CheckOutDescriptor>
+      <CheckOutDescriptorForQty>
+        <Arrow onClick={takeOutOneHandler}>&#10094;</Arrow>
+        <QuantityAmount>{quantity}</QuantityAmount>
+        <Arrow onClick={addOneHandler}>&#10095;</Arrow>
+      </CheckOutDescriptorForQty>
+      <CheckOutDescriptor>{price}</CheckOutDescriptor>
+      <CheckOutRemoveButton onClick={handleRemoval}>
         &#10005;
-      </div>
-    </div>
+      </CheckOutRemoveButton>
+    </CheckOutItemContainer>
   );
 };
 

@@ -1,6 +1,10 @@
 import React from "react";
-import "./cart-dropdown.style.scss";
-import Button, { BUTTON_TYPE_CLASSES } from "../button/button.component";
+import {
+  CartDropdownContainer,
+  CartItemList,
+  CheckOutButton,
+} from "./cart-dropdown.style.jsx";
+import { BUTTON_TYPE_CLASSES } from "../button/button.component";
 import CartItem from "../cart-item/cart-item.component";
 import { CartCtx } from "../../context/cart.context";
 import { useContext } from "react";
@@ -18,20 +22,20 @@ const CartDropdown = () => {
   };
 
   return (
-    <div className="cart-dropdown-container">
-      <div className="cart-items">
+    <CartDropdownContainer>
+      <CartItemList>
         {cartItems.map((item) => {
           return <CartItem key={item.id} cartItem={item} />;
         })}
-      </div>
-      <Button
-        buttonType={BUTTON_TYPE_CLASSES.baseButton}
+      </CartItemList>
+      <CheckOutButton
+        buttonType={BUTTON_TYPE_CLASSES.base}
         type="button"
         onClick={goToCheckOutHandler}
       >
         Go to check out
-      </Button>
-    </div>
+      </CheckOutButton>
+    </CartDropdownContainer>
   );
 };
 
