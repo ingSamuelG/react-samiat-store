@@ -1,5 +1,5 @@
 import { React, useEffect, useState } from "react";
-import "./sign-up.style.scss";
+import { SignUpContainer } from "./sign-up.style.jsx";
 import {
   createAuthUserWithEmailAndPassword,
   createUserDocumentFromAuth,
@@ -57,7 +57,7 @@ function SingUpForm() {
   }, [form, confirmPassword, password]);
 
   return (
-    <div className="sign-up-container">
+    <SignUpContainer>
       <h2>I do not have a account</h2>
 
       <div className="group">
@@ -119,7 +119,7 @@ function SingUpForm() {
           </Button>
         </form>
       </div>
-    </div>
+    </SignUpContainer>
   );
 }
 
