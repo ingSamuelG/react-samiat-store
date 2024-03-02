@@ -3,15 +3,13 @@ import FormInput from "../form-input/form-input.component";
 import {
   // auth,
   singInWithGooglePopUp,
-  createUserDocumentFromAuth,
+  // createUserDocumentFromAuth,
   signInUserWithEmailandPassword,
   // signInWithGoogleRedirect,
 } from "../../utils/firebase/firebase.util";
 // import { getRedirectResult } from "firebase/auth";
-import Button from "../button/button.component";
+import Button, { BUTTON_TYPE_CLASSES } from "../button/button.component";
 import { useState } from "react";
-
-const handleSubmit = () => {};
 
 export default function SignInForm() {
   /// To use with google redirect instead of the pop up
@@ -39,8 +37,7 @@ export default function SignInForm() {
 
   const logGoogleUser = async () => {
     try {
-      const { user } = await singInWithGooglePopUp();
-      createUserDocumentFromAuth(user);
+      await singInWithGooglePopUp();
     } catch (error) {
       if (
         error.code === "auth/cancelled-popup-request" ||
@@ -59,8 +56,14 @@ export default function SignInForm() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (email && password) {
-      await signInUserWithEmailandPassword(email, password);
-      setForm(defaultFormFields);
+      try {
+        await signInUserWithEmailandPassword(email, password);
+        setForm(defaultFormFields);
+      } catch (error) {
+        if (error.code === "auth/invalid-credential") {
+          alert("password or user is invalid");
+        }
+      }
     }
   };
 
@@ -93,8 +96,14 @@ export default function SignInForm() {
             value={password}
           />
           <div className="button-group">
-            <Button type="submit">Sign in</Button>
-            <Button buttonType="google" onClick={logGoogleUser}>
+            <Button type="submit" buttonType={BUTTON_TYPE_CLASSES.base}>
+              Sign in
+            </Button>
+            <Button
+              type="button"
+              buttonType={BUTTON_TYPE_CLASSES.google}
+              onClick={logGoogleUser}
+            >
               Sing with google
             </Button>
           </div>

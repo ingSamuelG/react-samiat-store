@@ -1,7 +1,25 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import {getAuth, signInWithRedirect , signInWithPopup , GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword} from 'firebase/auth'
-import {getFirestore, doc,getDoc,setDoc} from 'firebase/firestore'
+import {
+  getAuth,
+  signInWithRedirect,
+  signInWithPopup,
+  GoogleAuthProvider,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged,
+} from "firebase/auth";
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  setDoc,
+  collection,
+  writeBatch,
+  query,
+  getDocs,
+} from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -12,68 +30,95 @@ const firebaseConfig = {
   projectId: "samiat-test-db",
   storageBucket: "samiat-test-db.appspot.com",
   messagingSenderId: "864795528880",
-  appId: "1:864795528880:web:0857a03093ba4613e33575"
+  appId: "1:864795528880:web:0857a03093ba4613e33575",
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-const provider =  new GoogleAuthProvider();
+const provider = new GoogleAuthProvider();
 
 provider.setCustomParameters({
-    prompt: "select_account"
-})
+  prompt: "select_account",
+});
 
 export const auth = getAuth();
-export const singInWithGooglePopUp = () => signInWithPopup(auth, provider)
+export const singInWithGooglePopUp = () => signInWithPopup(auth, provider);
 export const signInWithGoogleRedirect = () => {
-    signInWithRedirect(auth,provider)
-}
+  signInWithRedirect(auth, provider);
+};
 
-export const db = getFirestore()
+export const db = getFirestore();
+
+export const addCollectionAndDocuments = async (collectionKey, objectToAdd) => {
+  const collectionRef = collection(db, collectionKey);
+  const batch = writeBatch(db);
+
+  objectToAdd.forEach((obj) => {
+    const docRef = doc(collectionRef, obj.title.toLowerCase());
+    batch.set(docRef, obj);
+  });
+
+  await batch.commit();
+  console.log("done with the cats");
+};
+
+export const getCategoriesAndDocuments = async () => {
+  const collectionRef = collection(db, "categories");
+  const q = query(collectionRef);
+
+  const querySnapshot = await getDocs(q);
+
+  const categoryMap = querySnapshot.docs.reduce((acc, docSnapShot) => {
+    const { title, items } = docSnapShot.data();
+    acc[title.toLowerCase()] = items;
+    return acc;
+  }, {});
+
+  return categoryMap;
+};
 
 export const createUserDocumentFromAuth = async (userAuth) => {
-    const userDocRef = await doc(db, 'users', userAuth.uid)
-    const userSnapShot = await getDoc(userDocRef)
-    
-    if (!userSnapShot.exists()){
-        const { displayName, email } = userAuth
-        const createdAt = new Date();
+  const userDocRef = await doc(db, "users", userAuth.uid);
+  const userSnapShot = await getDoc(userDocRef);
 
-        try {
-            await setDoc(userDocRef, {displayName, email, createdAt})
-        } catch (error) {
-            console.log("error creating a user", error.message)
-        }
+  if (!userSnapShot.exists()) {
+    const { displayName, email } = userAuth;
+    const createdAt = new Date();
+
+    try {
+      await setDoc(userDocRef, { displayName, email, createdAt });
+    } catch (error) {
+      console.log("error creating a user", error.message);
     }
+  }
 
-    return userDocRef
-}
+  return userDocRef;
+};
 
-export const createAuthUserWithEmailAndPassword = async (displayName,email, password) => {
-    if (!email || ! password)return
-    
-    const {user} = await createUserWithEmailAndPassword(auth, email, password)
-    // console.log(user)
+export const createAuthUserWithEmailAndPassword = async (
+  displayName,
+  email,
+  password
+) => {
+  if (!email || !password) return;
 
-    const newUser = {...user, displayName}
+  const { user } = await createUserWithEmailAndPassword(auth, email, password);
+  // console.log(user)
 
-   
+  const newUser = { ...user, displayName };
+  return newUser;
+};
 
-    return newUser
+export const signOutUser = async () => {
+  await signOut(auth);
+};
 
+export const signInUserWithEmailandPassword = async (email, password) => {
+  const { user } = await signInWithEmailAndPassword(auth, email, password);
+  console.log(user);
+  return user;
+};
 
-}
-
-export const signInUserWithEmailandPassword =  async (email,password) => {
-        try {
-            const userCred = await signInWithEmailAndPassword (auth, email,password)
-            console.log(userCred)
-            return userCred
-        } catch (error) { 
-            alert(`Error in sign: ${error.message}`)
-            
-        }
-        
-
-}
+export const onAuthStateChangedListener = (callback) =>
+  onAuthStateChanged(auth, callback);

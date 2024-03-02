@@ -1,11 +1,11 @@
 import { React, useEffect, useState } from "react";
-import "./sign-up.style.scss";
+import { SignUpContainer } from "./sign-up.style.jsx";
 import {
   createAuthUserWithEmailAndPassword,
   createUserDocumentFromAuth,
 } from "../../utils/firebase/firebase.util";
 import FormInput from "../form-input/form-input.component";
-import Button from "../button/button.component";
+import Button, { BUTTON_TYPE_CLASSES } from "../button/button.component";
 
 function SingUpForm() {
   const defaultFormFields = {
@@ -15,6 +15,9 @@ function SingUpForm() {
     confirmPassword: "",
   };
 
+  const resetFormFields = () => {
+    setForm(defaultFormFields);
+  };
   const [form, setForm] = useState(defaultFormFields);
   const [hiddeButton, sethiddeButton] = useState(true);
   const { displayname, email, password, confirmPassword } = form;
@@ -28,9 +31,8 @@ function SingUpForm() {
           email,
           password
         );
-
         createUserDocumentFromAuth(res);
-        setForm(defaultFormFields);
+        resetFormFields();
       } catch (error) {
         alert(`Error:${error.message}`);
       }
@@ -55,7 +57,7 @@ function SingUpForm() {
   }, [form, confirmPassword, password]);
 
   return (
-    <div className="sign-up-container">
+    <SignUpContainer>
       <h2>I do not have a account</h2>
 
       <div className="group">
@@ -108,12 +110,16 @@ function SingUpForm() {
               <p style={{ color: "green" }}>Matching ...</p>
             )
           ) : null}
-          <Button disabled={hiddeButton} type="submit">
+          <Button
+            disabled={hiddeButton}
+            type="submit"
+            buttonType={BUTTON_TYPE_CLASSES.base}
+          >
             Sign up
           </Button>
         </form>
       </div>
-    </div>
+    </SignUpContainer>
   );
 }
 
