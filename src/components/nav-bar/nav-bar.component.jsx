@@ -15,8 +15,7 @@ import CartIcon from "../cart-icon/cart-icon.componet";
 
 const NavBar = () => {
   const { currentUser } = useContext(UserCtx);
-  const { cart } = useContext(CartCtx);
-  const { isCartDropDownOpen } = cart;
+  const { isCartDropDownOpen } = useContext(CartCtx);
 
   return (
     <NavigationContainer>

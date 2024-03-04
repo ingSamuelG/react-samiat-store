@@ -1,13 +1,13 @@
 import SingUpForm from "../../components/sign-up-form/sign-up-form.component";
 import SignInForm from "../../components/sign-in-form/sign-in-form.component";
-import "./auth.style.scss";
+import { AuthSelectionContainer } from "./auth.style.jsx";
 
 function SingIn() {
   return (
-    <div className="auth-selection-container">
+    <AuthSelectionContainer>
       <SignInForm />
       <SingUpForm />
-    </div>
+    </AuthSelectionContainer>
   );
 }
 

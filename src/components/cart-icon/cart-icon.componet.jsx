@@ -4,18 +4,17 @@ import { CartCtx } from "../../context/cart.context";
 import { useContext } from "react";
 
 const CartIcon = () => {
-  const { cart, setCart, calculateCartQty } = useContext(CartCtx);
-  const { isCartDropDownOpen, cartItems } = cart;
-  const count = calculateCartQty(cartItems);
+  const { toggleCartDropdown, cartItemQty } = useContext(CartCtx);
+  // const count = calculateCartQty(cartItems);
 
-  const toggleCartDropdown = () => {
-    setCart({ ...cart, isCartDropDownOpen: !isCartDropDownOpen });
+  const handleToggleCartDropdown = () => {
+    toggleCartDropdown();
   };
 
   return (
-    <CartIconContainer onClick={toggleCartDropdown}>
+    <CartIconContainer onClick={handleToggleCartDropdown}>
       <ShopIcon />
-      <ItemCount>{count}</ItemCount>
+      <ItemCount>{cartItemQty}</ItemCount>
     </CartIconContainer>
   );
 };
