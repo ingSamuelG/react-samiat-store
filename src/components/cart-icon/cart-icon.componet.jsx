@@ -4,7 +4,7 @@ import { CartCtx } from "../../context/cart.context";
 import { useContext } from "react";
 
 const CartIcon = () => {
-  const { toggleCartDropdown, cartItemQty } = useContext(CartCtx);
+  const { toggleCartDropdown, cartCount } = useContext(CartCtx);
   // const count = calculateCartQty(cartItems);
 
   const handleToggleCartDropdown = () => {
@@ -14,7 +14,7 @@ const CartIcon = () => {
   return (
     <CartIconContainer onClick={handleToggleCartDropdown}>
       <ShopIcon />
-      <ItemCount>{cartItemQty}</ItemCount>
+      <ItemCount>{cartCount}</ItemCount>
     </CartIconContainer>
   );
 };
