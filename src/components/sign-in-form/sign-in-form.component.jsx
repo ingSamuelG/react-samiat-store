@@ -1,5 +1,6 @@
 import React from "react";
 import FormInput from "../form-input/form-input.component";
+import { ButtonGroup } from "./sign-in-form.style";
 import {
   // auth,
   singInWithGooglePopUp,
@@ -95,7 +96,7 @@ export default function SignInForm() {
             onChange={handleChange}
             value={password}
           />
-          <div className="button-group">
+          <ButtonGroup>
             <Button type="submit" buttonType={BUTTON_TYPE_CLASSES.base}>
               Sign in
             </Button>
@@ -106,7 +107,7 @@ export default function SignInForm() {
             >
               Sing with google
             </Button>
-          </div>
+          </ButtonGroup>
         </form>
       </div>
     </div>

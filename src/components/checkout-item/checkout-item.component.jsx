@@ -14,17 +14,17 @@ import {
 
 const CheckOutItem = ({ item }) => {
   const { title, thumbnail, quantity, price } = item;
-  const { addItemToCart, removeCartItem, clearCartItem } = useContext(CartCtx);
+  const { addItemToCart, reduceCartItem, deleteCartItem } = useContext(CartCtx);
 
   const handleRemoval = () => {
-    clearCartItem(item);
+    deleteCartItem(item);
   };
   const addOneHandler = () => {
     addItemToCart(item);
   };
 
   const takeOutOneHandler = () => {
-    removeCartItem(item);
+    reduceCartItem(item);
   };
 
   return (

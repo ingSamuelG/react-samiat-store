@@ -2,7 +2,6 @@ import React from "react";
 import {
   CartDropdownContainer,
   CartItems,
-  CheckOutButton,
   EmptyMessage,
 } from "./cart-dropdown.style.jsx";
 import Button, { BUTTON_TYPE_CLASSES } from "../button/button.component";
@@ -12,13 +11,12 @@ import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
 const CartDropdown = () => {
-  const { cart, setCart } = useContext(CartCtx);
-  const { cartItems } = cart;
+  const { cartItems, toggleCartDropdown } = useContext(CartCtx);
 
   const navigate = useNavigate();
 
   const goToCheckOutHandler = () => {
-    setCart({ ...cart, isCartDropDownOpen: false });
+    toggleCartDropdown();
     navigate("/checkout");
   };
 

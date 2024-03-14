@@ -1,25 +1,21 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { useContext } from "react";
-import { CategoriesCtx } from "../../context/categories.context";
-import "./category.styyle.scss";
+import { CategoryContainer, CategoryTitle } from "./category.styyle.jsx";
 import ProductCard from "../../components/product-card/product-card.component";
+import { useSelector } from "react-redux";
+import { selectCategoriesMap } from "../../store/categories/categories.selector.js";
 
 const Category = () => {
   const { category } = useParams();
-  const { categoriesMap } = useContext(CategoriesCtx);
+  const categoriesMap = useSelector(selectCategoriesMap);
   const [productsByCategory, setProductsByCategory] = useState(
     categoriesMap[category]
   );
 
-  useEffect(() => {
-    setProductsByCategory(categoriesMap[category]);
-  }, [categoriesMap, category]);
-
   return (
     <>
-      <h2 className="category-title">{category.toUpperCase()}</h2>
-      <div className="category-container">
+      <CategoryTitle>{category.toUpperCase()}</CategoryTitle>
+      <CategoryContainer>
         {productsByCategory &&
           productsByCategory.map(({ id, name, imageUrl, price }) => {
             return (
@@ -32,7 +28,7 @@ const Category = () => {
               />
             );
           })}
-      </div>
+      </CategoryContainer>
     </>
   );
 };
