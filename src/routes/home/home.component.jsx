@@ -1,15 +1,6 @@
 import Directory from "../../components/directory/directory.component";
-// import { useContext, useEffect, useState } from "react";
-// import { CategoriesCtx } from "../../context/categories.context";
 
 const Home = () => {
-  // const { categoriesMap } = useContext(CategoriesCtx);
-  // const [categories, setCategories] = useState(Object.keys(categoriesMap));
-
-  // useEffect(() => {
-  //   setCategories(Object.keys(categoriesMap));
-  // }, [categoriesMap]);
-
   const categories = [
     {
       id: 1,
