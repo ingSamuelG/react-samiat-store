@@ -12,6 +12,7 @@ import {
   singInWithGooglePopUp,
   signOutUser,
   signInUserWithEmailandPassword,
+  createAuthUserWithEmailAndPassword,
 } from "../../utils/firebase/firebase.util";
 
 export function* getSnapshotFromUserAuth(userAuth, details) {
@@ -63,10 +64,31 @@ export function* sigOutUser() {
 
 export function* logInWithEmail(action) {
   try {
-    console.log(action);
     const { email, password } = action.payload;
     const user = yield call(signInUserWithEmailandPassword, email, password);
-    yield put(signInSuccess({ user }));
+    yield put(signInSuccess(user));
+  } catch (error) {
+    yield put(signInFailed(error));
+  }
+}
+
+export function* singUpAndCreateUser(action) {
+  try {
+    const { displayname, email, password, confirmPassword } = action.payload;
+    if (password === confirmPassword) {
+      const authUser = yield call(
+        createAuthUserWithEmailAndPassword,
+        displayname,
+        email,
+        password
+      );
+      yield call(createUserDocumentFromAuth, authUser);
+
+      yield put(signInSuccess(authUser));
+    } else {
+      const error = new Error("The passwords dosnt match");
+      yield put(signInFailed(error));
+    }
   } catch (error) {
     yield put(signInFailed(error));
   }
@@ -88,11 +110,15 @@ export function* onSignInWithEmail() {
   yield takeLatest(USER_ACTION_TYPES.EMAIL_SIGN_IN_START, logInWithEmail);
 }
 
+export function* onSignUp() {
+  yield takeLatest(USER_ACTION_TYPES.SIGN_UP_START, singUpAndCreateUser);
+}
 export function* userSagas() {
   yield all([
     call(onCheckUserSession),
     call(onSignInWithGoogle),
     call(onSignOut),
     call(onSignInWithEmail),
+    call(onSignUp),
   ]);
 }

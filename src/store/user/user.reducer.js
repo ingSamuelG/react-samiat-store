@@ -32,7 +32,11 @@ export const userReducer = (state = INITIAL_STATE, action) => {
         ...state,
         isLoading: true,
       };
-
+    case USER_ACTION_TYPES.SIGN_UP_START:
+      return {
+        ...state,
+        isLoading: true,
+      };
     case USER_ACTION_TYPES.SING_OUT_USER_SUCCESS:
       return {
         ...state,

@@ -1,13 +1,6 @@
 import React from "react";
 import FormInput from "../form-input/form-input.component";
 import { ButtonGroup } from "./sign-in-form.style";
-import {
-  // auth,
-  singInWithGooglePopUp,
-  // createUserDocumentFromAuth,
-  signInUserWithEmailandPassword,
-  // signInWithGoogleRedirect,
-} from "../../utils/firebase/firebase.util";
 // import { getRedirectResult } from "firebase/auth";
 import Button, { BUTTON_TYPE_CLASSES } from "../button/button.component";
 import { useState } from "react";
