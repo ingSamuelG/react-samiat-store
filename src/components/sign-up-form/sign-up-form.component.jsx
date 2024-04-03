@@ -2,11 +2,13 @@ import { React, useEffect, useState } from "react";
 import { SignUpContainer } from "./sign-up.style.jsx";
 import FormInput from "../form-input/form-input.component";
 import Button, { BUTTON_TYPE_CLASSES } from "../button/button.component";
-import { useDispatch } from "react-redux";
-import { signUpStart } from "../../store/user/user.action.js";
+import {
+  createAuthUserWithEmailAndPassword,
+  createUserDocumentFromAuth,
+} from "../../utils/firebase/firebase.util.js";
+import { setCurrentUser } from "../../store/user/user.reducer.js";
 
 function SingUpForm() {
-  const dispatch = useDispatch();
   const defaultFormFields = {
     displayname: "",
     email: "",
@@ -21,9 +23,15 @@ function SingUpForm() {
   const [hiddeButton, sethiddeButton] = useState(true);
   const { displayname, email, password, confirmPassword } = form;
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    dispatch(signUpStart(form));
+    const authUser = await createAuthUserWithEmailAndPassword(
+      displayname,
+      email,
+      password
+    );
+    const userSnap = await createUserDocumentFromAuth(authUser);
+    setCurrentUser(userSnap);
     resetFormFields();
   };
 

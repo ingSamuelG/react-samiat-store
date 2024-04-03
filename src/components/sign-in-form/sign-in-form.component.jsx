@@ -2,13 +2,13 @@ import React from "react";
 import FormInput from "../form-input/form-input.component";
 import { ButtonGroup } from "./sign-in-form.style";
 // import { getRedirectResult } from "firebase/auth";
+import {
+  signInUserWithEmailandPassword,
+  singInWithGooglePopUp,
+} from "../../utils/firebase/firebase.util";
 import Button, { BUTTON_TYPE_CLASSES } from "../button/button.component";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import {
-  googleSignInStart,
-  emailSignInStart,
-} from "../../store/user/user.action";
+import { setUserError } from "../../store/user/user.reducer";
 
 export default function SignInForm() {
   /// To use with google redirect instead of the pop up
@@ -24,7 +24,6 @@ export default function SignInForm() {
   //     getResutls();
   //   }, []);
 
-  const dispatch = useDispatch();
   const defaultFormFields = {
     email: "",
     password: "",
@@ -35,8 +34,12 @@ export default function SignInForm() {
     setForm({ ...form, [name]: value });
   };
 
-  const logGoogleUser = () => {
-    dispatch(googleSignInStart());
+  const logGoogleUser = async () => {
+    try {
+      await singInWithGooglePopUp();
+    } catch (error) {
+      setUserError(error);
+    }
   };
 
   const [form, setForm] = useState(defaultFormFields);
@@ -45,7 +48,7 @@ export default function SignInForm() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (email && password) {
-      dispatch(emailSignInStart(email, password));
+      signInUserWithEmailandPassword(email, password);
       setForm(defaultFormFields);
     }
   };

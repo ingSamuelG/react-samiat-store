@@ -6,20 +6,19 @@ import {
   LogoContainer,
 } from "./nav-bar.style";
 import { ReactComponent as SamiatLogo } from "../../assets/logo.svg";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../store/user/user.selector";
 import CartDropdown from "../cart-dropdown/cart-dropdown.component";
 import CartIcon from "../cart-icon/cart-icon.componet";
 import { selectTogleDropdown } from "../../store/cart/cart.selector";
-import { signOutStart } from "../../store/user/user.action";
+import { signOutUser } from "../../utils/firebase/firebase.util";
 
 const NavBar = () => {
   const currentUser = useSelector(selectCurrentUser);
   const isCartDropDownOpen = useSelector(selectTogleDropdown);
-  const dispatch = useDispatch();
 
-  const handleSignOut = () => {
-    dispatch(signOutStart());
+  const handleSignOut = async () => {
+    await signOutUser();
   };
 
   return (
