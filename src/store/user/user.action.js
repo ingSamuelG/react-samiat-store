@@ -26,8 +26,19 @@ export const emailSignInStart = (email, password) =>
 export const signInSuccess = (user) =>
   createAction(USER_ACTION_TYPES.SIGN_IN_SUCCESS, user);
 
+export const signUpSuccess = (user) =>
+  createAction(USER_ACTION_TYPES.SIGN_UP_SUCCESS, user);
+
 export const signUpStart = (form) =>
   createAction(USER_ACTION_TYPES.SIGN_UP_START, form);
 
 export const signInFailed = (error) =>
   createAction(USER_ACTION_TYPES.SIGN_IN_FALIED, error);
+
+// Error: put(action): argument action is undefined
+// at check (http://localhost:3000/static/js/bundle.js:41560:11)
+// at put (http://localhost:3000/static/js/bundle.js:41927:7)
+// at getSnapshotFromUserAuth (http://localhost:3000/static/js/bundle.js:5506:66)
+// at getSnapshotFromUserAuth.next (<anonymous>)
+// at next (http://localhost:3000/static/js/bundle.js:43174:29)
+// at currCb (http://localhost:3000/static/js/bundle.js:43258:7)

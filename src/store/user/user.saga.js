@@ -4,6 +4,7 @@ import {
   signInSuccess,
   signInFailed,
   signOutSuccess,
+  signUpSuccess,
   checkUserSession,
 } from "./user.action";
 import {
@@ -15,12 +16,10 @@ import {
   createAuthUserWithEmailAndPassword,
 } from "../../utils/firebase/firebase.util";
 
-export function* getSnapshotFromUserAuth(userAuth, details) {
+export function* getSnapshotFromUserAuth(userAuth) {
   try {
     const userSnap = yield call(createUserDocumentFromAuth, userAuth);
     yield put(signInSuccess({ id: userSnap.id, ...userSnap.data() }));
-    console.log(userSnap);
-    console.log(userSnap.data());
   } catch (error) {
     yield put(signInFailed(error));
   }
@@ -65,14 +64,18 @@ export function* sigOutUser() {
 export function* logInWithEmail(action) {
   try {
     const { email, password } = action.payload;
-    const user = yield call(signInUserWithEmailandPassword, email, password);
-    yield put(signInSuccess(user));
+    const { user } = yield call(
+      signInUserWithEmailandPassword,
+      email,
+      password
+    );
+    yield put(checkUserSession(user));
   } catch (error) {
     yield put(signInFailed(error));
   }
 }
 
-export function* singUpAndCreateUser(action) {
+export function* singUp(action) {
   try {
     const { displayname, email, password, confirmPassword } = action.payload;
     if (password === confirmPassword) {
@@ -82,9 +85,8 @@ export function* singUpAndCreateUser(action) {
         email,
         password
       );
-      yield call(createUserDocumentFromAuth, authUser);
 
-      yield put(signInSuccess(authUser));
+      yield put(signUpSuccess(authUser));
     } else {
       const error = new Error("The passwords dosnt match");
       yield put(signInFailed(error));
@@ -92,6 +94,11 @@ export function* singUpAndCreateUser(action) {
   } catch (error) {
     yield put(signInFailed(error));
   }
+}
+
+export function* signInAfterSignUp(action) {
+  const userAuth = action.payload;
+  yield call(getSnapshotFromUserAuth, userAuth);
 }
 
 export function* onSignOut() {
@@ -110,8 +117,12 @@ export function* onSignInWithEmail() {
   yield takeLatest(USER_ACTION_TYPES.EMAIL_SIGN_IN_START, logInWithEmail);
 }
 
+export function* onSignUpSuccess() {
+  yield takeLatest(USER_ACTION_TYPES.SIGN_UP_SUCCESS, signInAfterSignUp);
+}
+
 export function* onSignUp() {
-  yield takeLatest(USER_ACTION_TYPES.SIGN_UP_START, singUpAndCreateUser);
+  yield takeLatest(USER_ACTION_TYPES.SIGN_UP_START, singUp);
 }
 export function* userSagas() {
   yield all([
@@ -120,5 +131,6 @@ export function* userSagas() {
     call(onSignOut),
     call(onSignInWithEmail),
     call(onSignUp),
+    call(onSignUpSuccess),
   ]);
 }
