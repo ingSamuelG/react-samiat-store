@@ -1,16 +1,11 @@
-import { createContext, useReducer } from "react";
-import { createAction } from "../utils/reducer/reducer.utils";
+import { CART_ACTION_TYPES } from "./cart.type";
 
-export const CartCtx = createContext({
+const INITIAL_STATE = {
   isCartDropDownOpen: false,
   cartItems: [],
   cartCount: 0,
   cartTotal: 0,
-  addItemToCart: () => {},
-  toggleCartDropdown: () => {},
-  reduceCartItem: () => {},
-  deleteCartItem: () => {},
-});
+};
 
 const setCartItemQtyWithCallbackResult = (
   callback,
@@ -74,21 +69,7 @@ const calculateProductTotalQtyAndTotalAmount = (products) => {
   );
 };
 
-const CART_ACTION_TYPES = {
-  SET_NEW_ITEM_TO_CART: "SET_NEW_ITEM_TO_CART",
-  TOGGLE_CART_DROP_DOWN: "TOGGLE_CART_DROP_DOWN",
-  REMOVE_ONE_CART_ITEM: "REMOVE_ONE_CART_ITEM",
-  DELETE_CART_ITEM: "DELETE_CART_ITEM",
-};
-
-const INITIAL_STATE = {
-  isCartDropDownOpen: false,
-  cartItems: [],
-  cartCount: 0,
-  cartTotal: 0,
-};
-
-const cartReducer = (state, action) => {
+export const cartReducer = (state = INITIAL_STATE, action) => {
   const { type, payload } = action;
   const { cartItems } = state;
 
@@ -146,46 +127,6 @@ const cartReducer = (state, action) => {
       };
     }
     default:
-      throw new Error(`Unhandle type ${type} in cartReducer`);
+      return state;
   }
-};
-
-// HERE THE COMPONENT START ____________________________________________________________________
-
-export const CartProvider = ({ children }) => {
-  const [{ isCartDropDownOpen, cartItems, cartCount, cartTotal }, dispatch] =
-    useReducer(cartReducer, INITIAL_STATE);
-
-  const reduceCartItem = (productToRemove) => {
-    dispatch(
-      createAction(CART_ACTION_TYPES.REMOVE_ONE_CART_ITEM, productToRemove)
-    );
-  };
-
-  const deleteCartItem = (productToDelete) => {
-    dispatch(createAction(CART_ACTION_TYPES.DELETE_CART_ITEM, productToDelete));
-  };
-
-  const toggleCartDropdown = () => {
-    dispatch(createAction(CART_ACTION_TYPES.TOGGLE_CART_DROP_DOWN, {}));
-  };
-
-  const addItemToCart = (productToAdd) => {
-    dispatch(
-      createAction(CART_ACTION_TYPES.SET_NEW_ITEM_TO_CART, productToAdd)
-    );
-  };
-
-  const value = {
-    isCartDropDownOpen,
-    cartItems,
-    cartCount,
-    cartTotal,
-    addItemToCart,
-    toggleCartDropdown,
-    reduceCartItem,
-    deleteCartItem,
-  };
-
-  return <CartCtx.Provider value={value}>{children}</CartCtx.Provider>;
 };

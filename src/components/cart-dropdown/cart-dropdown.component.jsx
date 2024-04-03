@@ -6,17 +6,18 @@ import {
 } from "./cart-dropdown.style.jsx";
 import Button, { BUTTON_TYPE_CLASSES } from "../button/button.component";
 import CartItem from "../cart-item/cart-item.component";
-import { CartCtx } from "../../context/cart.context";
-import { useContext } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { toggleCartDropDown } from "../../store/cart/cart.action.js";
+import { selectCartItems } from "../../store/cart/cart.selector.js";
 
 const CartDropdown = () => {
-  const { cartItems, toggleCartDropdown } = useContext(CartCtx);
-
+  const dispatch = useDispatch();
+  const cartItems = useSelector(selectCartItems);
   const navigate = useNavigate();
 
   const goToCheckOutHandler = () => {
-    toggleCartDropdown();
+    dispatch(toggleCartDropDown());
     navigate("/checkout");
   };
 

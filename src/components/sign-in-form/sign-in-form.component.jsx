@@ -1,16 +1,14 @@
 import React from "react";
 import FormInput from "../form-input/form-input.component";
 import { ButtonGroup } from "./sign-in-form.style";
-import {
-  // auth,
-  singInWithGooglePopUp,
-  // createUserDocumentFromAuth,
-  signInUserWithEmailandPassword,
-  // signInWithGoogleRedirect,
-} from "../../utils/firebase/firebase.util";
 // import { getRedirectResult } from "firebase/auth";
 import Button, { BUTTON_TYPE_CLASSES } from "../button/button.component";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import {
+  googleSignInStart,
+  emailSignInStart,
+} from "../../store/user/user.action";
 
 export default function SignInForm() {
   /// To use with google redirect instead of the pop up
@@ -26,6 +24,7 @@ export default function SignInForm() {
   //     getResutls();
   //   }, []);
 
+  const dispatch = useDispatch();
   const defaultFormFields = {
     email: "",
     password: "",
@@ -36,19 +35,8 @@ export default function SignInForm() {
     setForm({ ...form, [name]: value });
   };
 
-  const logGoogleUser = async () => {
-    try {
-      await singInWithGooglePopUp();
-    } catch (error) {
-      if (
-        error.code === "auth/cancelled-popup-request" ||
-        error.code === "auth/popup-closed-by-user"
-      ) {
-        console.log(error.message);
-      } else {
-        alert(error.message);
-      }
-    }
+  const logGoogleUser = () => {
+    dispatch(googleSignInStart());
   };
 
   const [form, setForm] = useState(defaultFormFields);
@@ -57,14 +45,8 @@ export default function SignInForm() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (email && password) {
-      try {
-        await signInUserWithEmailandPassword(email, password);
-        setForm(defaultFormFields);
-      } catch (error) {
-        if (error.code === "auth/invalid-credential") {
-          alert("password or user is invalid");
-        }
-      }
+      dispatch(emailSignInStart(email, password));
+      setForm(defaultFormFields);
     }
   };
 

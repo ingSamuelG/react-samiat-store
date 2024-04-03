@@ -6,18 +6,21 @@ import {
   LogoContainer,
 } from "./nav-bar.style";
 import { ReactComponent as SamiatLogo } from "../../assets/logo.svg";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectCurrentUser } from "../../store/user/user.selector";
-import { CartCtx } from "../../context/cart.context";
-import { useContext } from "react";
-import { signOutUser } from "../../utils/firebase/firebase.util";
 import CartDropdown from "../cart-dropdown/cart-dropdown.component";
 import CartIcon from "../cart-icon/cart-icon.componet";
+import { selectTogleDropdown } from "../../store/cart/cart.selector";
+import { signOutStart } from "../../store/user/user.action";
 
 const NavBar = () => {
-  // const { currentUser } = useContext(UserCtx);
   const currentUser = useSelector(selectCurrentUser);
-  const { isCartDropDownOpen } = useContext(CartCtx);
+  const isCartDropDownOpen = useSelector(selectTogleDropdown);
+  const dispatch = useDispatch();
+
+  const handleSignOut = () => {
+    dispatch(signOutStart());
+  };
 
   return (
     <NavigationContainer>
@@ -31,7 +34,7 @@ const NavBar = () => {
         {currentUser ? (
           <NavLink
             as="span"
-            onClick={signOutUser}
+            onClick={handleSignOut}
             className="nav-link"
             to="auth"
           >

@@ -1,4 +1,4 @@
-export const createAction = (stringType, payloadValue) => ({
+export const createAction = (stringType, payloadValue = null) => ({
   type: stringType,
   payload: payloadValue,
 });
