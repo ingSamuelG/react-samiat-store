@@ -8,7 +8,7 @@ import Button, { BUTTON_TYPE_CLASSES } from "../button/button.component";
 import CartItem from "../cart-item/cart-item.component";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { toggleCartDropDown } from "../../store/cart/cart.action.js";
+import { toggleDropDown } from "../../store/cart/cart.reducer.js";
 import { selectCartItems } from "../../store/cart/cart.selector.js";
 
 const CartDropdown = () => {
@@ -17,7 +17,7 @@ const CartDropdown = () => {
   const navigate = useNavigate();
 
   const goToCheckOutHandler = () => {
-    dispatch(toggleCartDropDown());
+    dispatch(toggleDropDown());
     navigate("/checkout");
   };
 

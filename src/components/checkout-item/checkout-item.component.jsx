@@ -11,24 +11,24 @@ import {
   CheckOutRemoveButton,
 } from "./checkout-item.style.jsx";
 import {
-  deleteCartItem,
-  removeOneCartItem,
-  setCartItems,
-} from "../../store/cart/cart.action.js";
+  deleteItem,
+  setNewItem,
+  reduceOneItem,
+} from "../../store/cart/cart.reducer.js";
 
 const CheckOutItem = ({ item }) => {
   const { title, thumbnail, quantity, price } = item;
   const dispatch = useDispatch();
 
   const handleRemoval = () => {
-    dispatch(deleteCartItem(item));
+    dispatch(deleteItem(item));
   };
   const addOneHandler = () => {
-    dispatch(setCartItems(item));
+    dispatch(setNewItem(item));
   };
 
   const takeOutOneHandler = () => {
-    dispatch(removeOneCartItem(item));
+    dispatch(reduceOneItem(item));
   };
 
   return (

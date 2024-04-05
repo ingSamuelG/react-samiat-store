@@ -1,7 +1,7 @@
 import React from "react";
 import { CartIconContainer, ItemCount, ShopIcon } from "./cart-icon.style.jsx";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleCartDropDown } from "../../store/cart/cart.action.js";
+import { toggleDropDown } from "../../store/cart/cart.reducer.js";
 import { selectCartCount } from "../../store/cart/cart.selector.js";
 
 const CartIcon = () => {
@@ -9,7 +9,7 @@ const CartIcon = () => {
   const cartCount = useSelector(selectCartCount);
 
   const handleToggleCartDropdown = () => {
-    dispatch(toggleCartDropDown());
+    dispatch(toggleDropDown());
   };
 
   return (
