@@ -11,7 +11,7 @@ export const PaymentForm = () => {
     if (!stripe || !elements) {
       return;
     }
-    const response = await fetch("./netlify/functions/create-pyament-intent", {
+    const response = await fetch("./netlify/functions/create-payment-intent", {
       method: "post",
       headers: {
         "Content-type": "application/json",
