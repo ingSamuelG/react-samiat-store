@@ -1,6 +1,5 @@
 import React from "react";
-import { CartCtx } from "../../context/cart.context";
-import { useContext } from "react";
+import { useDispatch } from "react-redux";
 import {
   CheckOutItemContainer,
   CheckOutDescriptor,
@@ -11,20 +10,25 @@ import {
   QuantityAmount,
   CheckOutRemoveButton,
 } from "./checkout-item.style.jsx";
+import {
+  deleteItem,
+  setNewItem,
+  reduceOneItem,
+} from "../../store/cart/cart.reducer.js";
 
 const CheckOutItem = ({ item }) => {
   const { title, thumbnail, quantity, price } = item;
-  const { addItemToCart, removeCartItem, clearCartItem } = useContext(CartCtx);
+  const dispatch = useDispatch();
 
   const handleRemoval = () => {
-    clearCartItem(item);
+    dispatch(deleteItem(item));
   };
   const addOneHandler = () => {
-    addItemToCart(item);
+    dispatch(setNewItem(item));
   };
 
   const takeOutOneHandler = () => {
-    removeCartItem(item);
+    dispatch(reduceOneItem(item));
   };
 
   return (

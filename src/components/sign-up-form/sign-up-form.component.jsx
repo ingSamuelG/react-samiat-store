@@ -1,11 +1,12 @@
 import { React, useEffect, useState } from "react";
 import { SignUpContainer } from "./sign-up.style.jsx";
+import FormInput from "../form-input/form-input.component";
+import Button, { BUTTON_TYPE_CLASSES } from "../button/button.component";
 import {
   createAuthUserWithEmailAndPassword,
   createUserDocumentFromAuth,
-} from "../../utils/firebase/firebase.util";
-import FormInput from "../form-input/form-input.component";
-import Button, { BUTTON_TYPE_CLASSES } from "../button/button.component";
+} from "../../utils/firebase/firebase.util.js";
+import { setCurrentUser } from "../../store/user/user.reducer.js";
 
 function SingUpForm() {
   const defaultFormFields = {
@@ -22,25 +23,16 @@ function SingUpForm() {
   const [hiddeButton, sethiddeButton] = useState(true);
   const { displayname, email, password, confirmPassword } = form;
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const getUser = async () => {
-      try {
-        const res = await createAuthUserWithEmailAndPassword(
-          displayname,
-          email,
-          password
-        );
-        createUserDocumentFromAuth(res);
-        resetFormFields();
-      } catch (error) {
-        alert(`Error:${error.message}`);
-      }
-    };
-
-    if (password === confirmPassword) {
-      getUser();
-    }
+    const authUser = await createAuthUserWithEmailAndPassword(
+      displayname,
+      email,
+      password
+    );
+    const userSnap = await createUserDocumentFromAuth(authUser);
+    setCurrentUser(userSnap);
+    resetFormFields();
   };
 
   const handleChange = (event) => {
