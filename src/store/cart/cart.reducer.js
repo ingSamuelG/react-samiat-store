@@ -1,6 +1,6 @@
-import { CART_ACTION_TYPES } from "./cart.type";
+import { createSlice } from "@reduxjs/toolkit";
 
-const INITIAL_STATE = {
+const CART_INITIAL_STATE = {
   isCartDropDownOpen: false,
   cartItems: [],
   cartCount: 0,
@@ -69,64 +69,57 @@ const calculateProductTotalQtyAndTotalAmount = (products) => {
   );
 };
 
-export const cartReducer = (state = INITIAL_STATE, action) => {
-  const { type, payload } = action;
-  const { cartItems } = state;
+export const cartSlice = createSlice({
+  name: "cart",
+  initialState: CART_INITIAL_STATE,
+  reducers: {
+    toggleDropDown(state, action) {
+      state.isCartDropDownOpen = !state.isCartDropDownOpen;
+    },
 
-  switch (type) {
-    case CART_ACTION_TYPES.SET_NEW_ITEM_TO_CART: {
+    setNewItem(state, action) {
       const newCartItems = setCartItemQtyWithCallbackResult(
         (qnty) => qnty + 1,
-        cartItems,
-        payload
+        state.cartItems,
+        action.payload
       );
       const { totalAmount, totalQty } =
         calculateProductTotalQtyAndTotalAmount(newCartItems);
 
-      return {
-        ...state,
-        cartItems: newCartItems,
-        cartCount: totalQty,
-        cartTotal: totalAmount,
-      };
-    }
-
-    case CART_ACTION_TYPES.TOGGLE_CART_DROP_DOWN:
-      const { isCartDropDownOpen } = state;
-      const newValueForDropDown = !isCartDropDownOpen;
-      return {
-        ...state,
-        isCartDropDownOpen: newValueForDropDown,
-      };
-
-    case CART_ACTION_TYPES.DELETE_CART_ITEM: {
-      const newCartItems = deleteProductFromArray(cartItems, payload);
+      state.cartItems = newCartItems;
+      state.cartCount = totalQty;
+      state.cartTotal = totalAmount;
+    },
+    deleteItem(state, action) {
+      const newCartItems = deleteProductFromArray(
+        state.cartItems,
+        action.payload
+      );
 
       const { totalAmount, totalQty } =
         calculateProductTotalQtyAndTotalAmount(newCartItems);
 
-      return {
-        ...state,
-        cartItems: newCartItems,
-        cartCount: totalQty,
-        cartTotal: totalAmount,
-      };
-    }
+      state.cartItems = newCartItems;
+      state.cartCount = totalQty;
+      state.cartTotal = totalAmount;
+    },
 
-    case CART_ACTION_TYPES.REMOVE_ONE_CART_ITEM: {
-      const newCartItems = removeProductFromItemArray(cartItems, payload);
+    reduceOneItem(state, action) {
+      const newCartItems = removeProductFromItemArray(
+        state.cartItems,
+        action.payload
+      );
 
       const { totalAmount, totalQty } =
         calculateProductTotalQtyAndTotalAmount(newCartItems);
 
-      return {
-        ...state,
-        cartItems: newCartItems,
-        cartCount: totalQty,
-        cartTotal: totalAmount,
-      };
-    }
-    default:
-      return state;
-  }
-};
+      state.cartItems = newCartItems;
+      state.cartCount = totalQty;
+      state.cartTotal = totalAmount;
+    },
+  },
+});
+
+export const { toggleDropDown, setNewItem, deleteItem, reduceOneItem } =
+  cartSlice.actions;
+export const cartReducer = cartSlice.reducer;

@@ -7,13 +7,13 @@ import {
 } from "./product-card.style.jsx";
 import Button, { BUTTON_TYPE_CLASSES } from "../button/button.component";
 import { useDispatch } from "react-redux";
-import { setCartItems } from "../../store/cart/cart.action.js";
+import { setNewItem } from "../../store/cart/cart.reducer.js";
 
 const ProductCard = (product) => {
   const { title, thumbnail, price } = product;
   const dispatch = useDispatch();
   const handleAddProductToCart = () => {
-    dispatch(setCartItems(product));
+    dispatch(setNewItem(product));
   };
 
   return (
