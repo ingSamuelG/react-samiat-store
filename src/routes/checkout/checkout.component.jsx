@@ -45,9 +45,9 @@ const CheckOut = () => {
           <CheckOutTotal>
             <span>{`Total: ${cartTotal}`}</span>
           </CheckOutTotal>
+          <PaymentForm />
         </>
       )}
-      <PaymentForm />
     </CheckOutContainer>
   );
 };
