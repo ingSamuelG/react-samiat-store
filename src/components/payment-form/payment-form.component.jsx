@@ -17,7 +17,7 @@ export const PaymentForm = () => {
         "Content-type": "application/json",
       },
       body: JSON.stringify({ amount: 10000 }),
-    }).then((res) => res.json());
+    });
     console.log(response);
   };
 
